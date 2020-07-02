@@ -10,9 +10,10 @@ include(ExternalProject)
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 ExternalProject_Add(opencv2_src
-  URL https://github.com/Itseez/opencv/archive/2.4.11.zip
+  GIT_REPOSITORY https://github.com/opencv/opencv.git
+  GIT_TAG 82f8176b0634c5d744d1a45246244291d895b2d1
   UPDATE_COMMAND ""
-  CONFIGURE_COMMAND cd ../opencv2_src && cmake 
+  CONFIGURE_COMMAND cd ../opencv2_src && mkdir build && cd build && cmake 
     -DWITH_TBB=ON
     -DBUILD_NEW_PYTHON_SUPPORT=ON 
     -DWITH_V4L=ON 
@@ -29,9 +30,9 @@ ExternalProject_Add(opencv2_src
     -DWITH_OPENCL=OFF
     -DBUILD_opencv_gpu=OFF 
     -DBUILD_opencv_ts=OFF 
-    -DBUILD_TESTS=OFF -DBUILD_opencv_ts=OFF .
-  BUILD_COMMAND cd ../opencv2_src && make -j8
-  INSTALL_COMMAND cd ../opencv2_src && make install -j8
+    -DBUILD_TESTS=OFF -DBUILD_opencv_ts=OFF ..
+  BUILD_COMMAND cd ../opencv2_src/build && make -j8
+  INSTALL_COMMAND cd ../opencv2_src/build && make install -j8
 )
 
 cs_add_library(${PROJECT_NAME} src/dependency_tracker.cc)
